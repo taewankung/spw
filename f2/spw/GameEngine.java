@@ -15,7 +15,8 @@ public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
 		
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
-	private SpaceShip v;	
+	private SpaceShip v;
+	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();	
 	
 	private Timer timer;
 	
@@ -35,8 +36,7 @@ public class GameEngine implements KeyListener, GameReporter{
 				process();
 			}
 		});
-		timer.setRepeats(true);
-		
+		timer.setRepeats(true);	
 	}
 	
 	public void start(){
@@ -44,28 +44,39 @@ public class GameEngine implements KeyListener, GameReporter{
 	}
 	
 	private void generateEnemy(){
-		Enemy e = new Enemy((int)(Math.random()*390), 30);
+		Enemy e = new Enemy((int)(Math.random()*640), 30);
 		gp.sprites.add(e);
 		enemies.add(e);
 	}
-	
+    private void generrateBullet(){
+        Bullet b = new Bullet(v.x + v.width/2,v.y);
+        gp.sprites.add(b);
+        bullet.add(b);
+    }
 	private void process(){
 		if(Math.random() < difficulty){
 			generateEnemy();
 		}
 		
 		Iterator<Enemy> e_iter = enemies.iterator();
-		while(e_iter.hasNext()){
+		Iterator<Bullet> b_iter = bullet.iterator();
+        while(e_iter.hasNext()){
 			Enemy e = e_iter.next();
-			e.proceed();
-			
+			e.proceed();    
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
 				score += 100;
 			}
 		}
-		
+        while(b_iter.hasNext()){
+            Bullet b = b_iter.next();
+            b.proceed();
+            if(!b.isAlive()){
+                b_iter.remove();
+                gp.sprites.remove(b);
+            }
+        }    
 		gp.updateGameUI(this);
 		
 		Rectangle2D.Double vr = v.getRectangle();
@@ -95,12 +106,15 @@ public class GameEngine implements KeyListener, GameReporter{
 			difficulty += 0.1;
 			break;
 		case KeyEvent.VK_UP:
-			v.moveup(-1);
+			v.move_up_down(-1);
 			break;
 		case KeyEvent.VK_DOWN:
-			v.moveup(1);
+			v.move_up_down(1);
 			break;
-		}
+        case KeyEvent.VK_S:
+            generrateBullet();
+            break;
+        }
 	}
 
 	public long getScore(){

@@ -23,14 +23,17 @@ public class SpaceShip extends Sprite{
 		x += (step * direction);
 		if(x < 0)
 			x = 0;
-		if(x > 400 - width)
-			x = 400 - width;
+		if(x > 600 - width)
+			x = 600 - width;
+			System.out.println(x);
 	}
-	public void moveup(int direction){
+	public void move_up_down(int direction){
 		y += (step*direction);
 		if(y < 60)
-			y = 2 * height;
-		if(y > 600 - height)
-			y = 600 - height;
+			y = 3 * height;
+		if(y > 580 - height)
+			y = 580 - height;
+			System.out.println(y);
 	}
+	
 }
