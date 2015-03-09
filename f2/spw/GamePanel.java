@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 	
-	private BufferedImage bi;	
+	private BufferedImage bi;
+	private int lv = 1;	
 	Graphics2D big;
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
@@ -22,9 +23,12 @@ public class GamePanel extends JPanel {
 
 	public void updateGameUI(GameReporter reporter){
 		big.clearRect(0, 0, 650, 650);
-		
-		big.setColor(Color.WHITE);		
+		big.setColor(Color.WHITE);
 		big.drawString(String.format("%08d", reporter.getScore()), 500, 20);
+		if(reporter.getScore() % 5000 == 0 && reporter.getScore()!=0){
+			lv += 1;
+		}
+		big.drawString("lv."+ lv,300,20);
 		for(Sprite s : sprites){
 			s.draw(big);
 		}

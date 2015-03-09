@@ -78,25 +78,28 @@ public class GameEngine implements KeyListener, GameReporter{
                 gp.sprites.remove(b);
             }
         }*/
-        v.shoot(gp,bullet);
+        	v.shoot(gp,bullet);
 		gp.updateGameUI(this);
-		
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
-        //Rectangle2D.Double br;
+        	Rectangle2D.Double br;
 		for(Enemy e : enemies){
 			er = e.getRectangle();
-         //   br = b.getRectangle();
 			if(er.intersects(vr)){
 				die();
-                //this.count_death += 1;
-                this.score += 100;
-                //System.out.println("DEATH: "+ this.count_death);
+                		this.score += 100;
 				return;
 			}
-        /*for(Bullet b: bullet)
-            if(er.positionX() == b.positionX() && er.positionY() == b.positionY())
-                e.die();*/
+        	for(Bullet b: bullet)
+			{
+				br = b.getRectangle();
+				if(er.intersects(br)){
+					e.die();
+					b.shooted();
+					gp.sprites.remove(b);
+					gp.sprites.remove(e);
+				}
+			}
 		}
 	}
 	

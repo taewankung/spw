@@ -20,7 +20,7 @@ public class Enemy extends Sprite{
 	public Enemy(int x, int y) {
        /* this.x = x;
         this.y = y;*/
-		super(x, y, 5, 10);	
+		super(x, y,20 , 30);	
 	}
 
 	@Override
@@ -42,9 +42,9 @@ public class Enemy extends Sprite{
 		}
 	}
 	
-    /*public void die(){
+    public void die(){
         alive = false;
-    }*/
+    }
 /*    public boolean shooted(int shoot)
     {
         if(shoot == 1)
