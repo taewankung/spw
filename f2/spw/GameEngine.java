@@ -13,7 +13,8 @@ import javax.swing.Timer;
 
 public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
-		
+    
+    //public int count_death = 0;    
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
 	private SpaceShip v;
 	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();	
@@ -48,11 +49,11 @@ public class GameEngine implements KeyListener, GameReporter{
 		gp.sprites.add(e);
 		enemies.add(e);
 	}
-    private void generrateBullet(){
+/*    private void generrateBullet(){
         Bullet b = new Bullet(v.x + v.width/2,v.y);
         gp.sprites.add(b);
         bullet.add(b);
-    }
+    }*/
 	private void process(){
 		if(Math.random() < difficulty){
 			generateEnemy();
@@ -69,24 +70,33 @@ public class GameEngine implements KeyListener, GameReporter{
 				score += 100;
 			}
 		}
-        while(b_iter.hasNext()){
+        /*while(b_iter.hasNext()){
             Bullet b = b_iter.next();
             b.proceed();
             if(!b.isAlive()){
                 b_iter.remove();
                 gp.sprites.remove(b);
             }
-        }    
+        }*/
+        v.shoot(gp,bullet);
 		gp.updateGameUI(this);
 		
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
+        //Rectangle2D.Double br;
 		for(Enemy e : enemies){
 			er = e.getRectangle();
+         //   br = b.getRectangle();
 			if(er.intersects(vr)){
 				die();
+                //this.count_death += 1;
+                this.score += 100;
+                //System.out.println("DEATH: "+ this.count_death);
 				return;
 			}
+        /*for(Bullet b: bullet)
+            if(er.positionX() == b.positionX() && er.positionY() == b.positionY())
+                e.die();*/
 		}
 	}
 	
@@ -112,7 +122,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			v.move_up_down(1);
 			break;
         case KeyEvent.VK_S:
-            generrateBullet();
+            v.makeBullet(gp,bullet);
             break;
         }
 	}

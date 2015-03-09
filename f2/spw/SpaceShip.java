@@ -1,13 +1,17 @@
 package f2.spw;
-
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class SpaceShip extends Sprite{
+import javax.swing.Timer;
 
+public class SpaceShip extends Sprite{
+    
 	int step = 10;
-	
-	public SpaceShip(int x, int y, int width, int height) {
+	//private Timer timer;
+
+    public SpaceShip(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		
 	}
@@ -35,5 +39,21 @@ public class SpaceShip extends Sprite{
 			y = 580 - height;
 			System.out.println(y);
 	}
-	
+    public void makeBullet(GamePanel gp,ArrayList<Bullet> bullet){
+        Bullet b = new Bullet(this.x + this.width/2,this.y);
+        gp.sprites.add(b);
+        bullet.add(b);
+
+    }
+    public void shoot(GamePanel gp,ArrayList<Bullet> bullet){
+        Iterator<Bullet> b_iter = bullet.iterator();
+        while(b_iter.hasNext()){
+            Bullet b = b_iter.next();
+            b.proceed();
+            if(!b.isAlive()){
+                b_iter.remove();
+                gp.sprites.remove(b);
+            }
+        }
+    }
 }

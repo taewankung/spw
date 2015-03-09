@@ -7,11 +7,19 @@ import java.awt.Graphics2D;
 public class Enemy extends Sprite{
 	public static final int Y_TO_FADE = 400;
 	public static final int Y_TO_DIE = 600;
-	
+	/*private int x;
+    private int y;*/
 	private int step = 10;
 	private boolean alive = true;
-	
+	/*public int positionX(){
+        return this.x;
+    }
+    public int positionY(){
+        return this.y;
+    }*/
 	public Enemy(int x, int y) {
+       /* this.x = x;
+        this.y = y;*/
 		super(x, y, 5, 10);	
 	}
 
@@ -34,7 +42,22 @@ public class Enemy extends Sprite{
 		}
 	}
 	
-	public boolean isAlive(){
+    /*public void die(){
+        alive = false;
+    }*/
+/*    public boolean shooted(int shoot)
+    {
+        if(shoot == 1)
+        {
+            alive = false;
+            return true;
+        }
+        else{
+            alive = true;
+            return false;
+            }
+    }*/
+    public boolean isAlive(){
 		return alive;
 	}
 }
