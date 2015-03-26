@@ -82,12 +82,11 @@ public class GameEngine implements KeyListener, GameReporter{
 		gp.updateGameUI(this);
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
-        	Rectangle2D.Double br;
+        Rectangle2D.Double br;
 		for(Enemy e : enemies){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
 				die();
-                		this.score += 100;
 				return;
 			}
         	for(Bullet b: bullet)
@@ -96,6 +95,7 @@ public class GameEngine implements KeyListener, GameReporter{
 				if(er.intersects(br)){
 					e.die();
 					b.shooted();
+                    score += 50;
 					gp.sprites.remove(b);
 					gp.sprites.remove(e);
 				}
