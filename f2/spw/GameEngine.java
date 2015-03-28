@@ -21,6 +21,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	
 	private Timer timer;
 	
+	private boolean keyCtl[] = {false,false,false,false,false};
 	private long score = 0;
 	private double difficulty = 0.1;
 	
@@ -35,11 +36,23 @@ public class GameEngine implements KeyListener, GameReporter{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				process();
+				CtlShip();
 			}
 		});
 		timer.setRepeats(true);	
 	}
-	
+	public void CtlShip(){
+		if(keyCtl[0])
+			v.move(-1);
+		else if(keyCtl[1])
+			v.move(1);
+		if(keyCtl[2])
+			v.move_up_down(-1);
+		else if(keyCtl[3])
+			v.move_up_down(1);
+		if(keyCtl[4])
+            		v.makeBullet(gp,bullet);
+	}
 	public void start(){
 		timer.start();
 	}
@@ -70,14 +83,6 @@ public class GameEngine implements KeyListener, GameReporter{
 				score += 100;
 			}
 		}
-        /*while(b_iter.hasNext()){
-            Bullet b = b_iter.next();
-            b.proceed();
-            if(!b.isAlive()){
-                b_iter.remove();
-                gp.sprites.remove(b);
-            }
-        }*/
         	v.shoot(gp,bullet);
 		gp.updateGameUI(this);
 		Rectangle2D.Double vr = v.getRectangle();
@@ -110,26 +115,49 @@ public class GameEngine implements KeyListener, GameReporter{
 	void controlVehicle(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			v.move(-1);
+			keyCtl[0] = true;
 			break;
 		case KeyEvent.VK_RIGHT:
-			v.move(1);
+			keyCtl[1] = true;
 			break;
 		case KeyEvent.VK_D:
 			difficulty += 0.1;
 			break;
 		case KeyEvent.VK_UP:
-			v.move_up_down(-1);
+			keyCtl[2]= true;
 			break;
 		case KeyEvent.VK_DOWN:
-			v.move_up_down(1);
+			keyCtl[3]=true;
 			break;
-        case KeyEvent.VK_S:
-            v.makeBullet(gp,bullet);
-            break;
-        }
+        	case KeyEvent.VK_S:
+			keyCtl[4]=true;
+            		v.makeBullet(gp,bullet);
+            	break;
+        	}
+	}
+	void breakControlVehicle(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			keyCtl[0] = false;
+			break;
+		case KeyEvent.VK_RIGHT:
+			keyCtl[1] = false;
+			break;
+		case KeyEvent.VK_UP:
+			keyCtl[2]= false;
+			break;
+		case KeyEvent.VK_DOWN:
+			keyCtl[3]= false;
+			break;
+        	case KeyEvent.VK_S:
+			keyCtl[4]= false;
+            		v.makeBullet(gp,bullet);
+            	break;
+        	}
 	}
 
+
+	
 	public long getScore(){
 		return score;
 	}
@@ -137,16 +165,16 @@ public class GameEngine implements KeyListener, GameReporter{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		controlVehicle(e);
-		
+		System.out.println("key: "+ e.getKeyCode());		
 	}
-
 	@Override
-	public void keyReleased(KeyEvent e) {
-		//do nothing
+	public void keyReleased(KeyEvent e){	
+		breakControlVehicle(e);
+		System.out.println("key: "+ e.getKeyCode());		
 	}
-
 	@Override
 	public void keyTyped(KeyEvent e) {
-		//do nothing		
+		//do nothing	
+		controlVehicle(e);
 	}
 }

@@ -7,11 +7,13 @@ import java.awt.Graphics2D;
 import javax.swing.Timer;
 
 public class SpaceShip extends Sprite{
-    
+   	
+	private int Hp = 100; 
+	private int Exp = 0;
 	int step = 10;
 	//private Timer timer;
 
-    public SpaceShip(int x, int y, int width, int height) {
+    	public SpaceShip(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		
 	}
@@ -22,7 +24,15 @@ public class SpaceShip extends Sprite{
 		g.fillRect(x, y, width, height);
 		
 	}
-
+	public int getHp(){
+		return this.Hp;
+	}
+	public void incleaseExp(){
+		this.Exp += 100;
+	}
+	public int getExp(){
+		return this.Exp;
+	}
 	public void move(int direction){
 		x += (step * direction);
 		if(x < 0)
