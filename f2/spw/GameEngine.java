@@ -18,7 +18,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
 	private SpaceShip v;
 	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();	
-	
+	private Boss boss = new Boss(20,200,100,5);	
 	private Timer timer;
 	
 	private boolean keyCtl[] = {false,false,false,false,false};
@@ -30,7 +30,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		this.v = v;		
 		
 		gp.sprites.add(v);
-		
+		gp.sprites.add(boss);
 		timer = new Timer(50, new ActionListener() {
 			
 			@Override
@@ -62,21 +62,17 @@ public class GameEngine implements KeyListener, GameReporter{
 		gp.sprites.add(e);
 		enemies.add(e);
 	}
-/*    private void generrateBullet(){
-        Bullet b = new Bullet(v.x + v.width/2,v.y);
-        gp.sprites.add(b);
-        bullet.add(b);
-    }*/
 	private void process(){
+		boss.proceed();
 		if(Math.random() < difficulty){
 			generateEnemy();
 		}
-		
+		boss.proceed();
 		Iterator<Enemy> e_iter = enemies.iterator();
 		Iterator<Bullet> b_iter = bullet.iterator();
         while(e_iter.hasNext()){
 			Enemy e = e_iter.next();
-			e.proceed();    
+			e.proceed();
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
