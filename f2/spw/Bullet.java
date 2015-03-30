@@ -7,21 +7,9 @@ import java.awt.AlphaComposite;
 public class Bullet extends Sprite{ 
 	  public static final int Y_TO_FADE = 100;
           public static final int Y_TO_DIE = 60;
-          
-/*          private int x;
-          private int y;*/ 
           private int step = 10;
           private boolean alive = true;
-          
-         /* public int positionX(){
-              return this.x;
-          }
-          public int positionY(){
-              return this.y;
-          }*/
           public Bullet(int x, int y) {
-           /*       this.x = x;
-                  this.y = y;*/
                   super(x, y, 5, 10);
           }
   
