@@ -91,6 +91,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		for(Enemy e : enemies){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
+				vr.redu
 				die();
 				return;
 			}
