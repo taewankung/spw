@@ -27,6 +27,9 @@ public class SpaceShip extends Sprite{
 	public int getHp(){
 		return this.Hp;
 	}
+	public int reduceHP(int damage){
+		this.hp-= damage;
+	}
 	public void incleaseExp(){
 		this.Exp += 100;
 	}
