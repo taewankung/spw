@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 public class Enemy extends Sprite{
 	public static final int Y_TO_FADE = 400;
 	public static final int Y_TO_DIE = 600;
-	protected int HP = 10;
+	protected long HP = 10;
 	protected int step = 10;
 	protected boolean alive = true;
 	/*public int positionX(){
@@ -19,7 +19,10 @@ public class Enemy extends Sprite{
 	public Enemy(int x, int y) {
 		super(x, y,20 , 30);	
 	}
-	public int getHP(){
+	public void reduceHP(int damage){
+		this.HP=this.HP-damage;
+	}
+	public long getHP(){
 		return this.HP;
 	}
 	@Override

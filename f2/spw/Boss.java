@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 public class Boss extends Enemy{
 	private boolean moveR = true;
 	private boolean moveL = false;
+	protected boolean blink = false;
+	private Graphics2D graphic;
 	public Boss(int x,int y,int HP,int step){
 		super(x,y);
 		this.HP = HP;
@@ -35,10 +37,10 @@ public class Boss extends Enemy{
 	public void draw(Graphics2D g){
 	g.setColor(Color.ORANGE);
 	g.fillRect(x,y,this.width,this.height);
+	this.graphic = g;
 	}
 	@Override
 	public void proceed(){
-		System.out.println("TRUE");
 		if(this.x <= 650 && moveR == true )
 		{
 			this.x += this.step;

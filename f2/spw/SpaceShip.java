@@ -39,7 +39,6 @@ public class SpaceShip extends Sprite{
 			x = 0;
 		if(x > 600 - width)
 			x = 600 - width;
-			System.out.println(x);
 	}
 	public void move_up_down(int direction){
 		y += (step*direction);
@@ -47,7 +46,6 @@ public class SpaceShip extends Sprite{
 			y = 3 * height;
 		if(y > 580 - height)
 			y = 580 - height;
-			System.out.println(y);
 	}
     public void makeBullet(GamePanel gp,ArrayList<Bullet> bullet){
         Bullet b = new Bullet(this.x + this.width/2,this.y);

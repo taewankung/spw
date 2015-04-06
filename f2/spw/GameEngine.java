@@ -18,7 +18,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
 	private SpaceShip v;
 	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();	
-	private Boss boss = new Boss(20,200,100,5);	
+	private Boss boss = new Boss(20,70,100000,5);	
 	private Timer timer;
 	
 	private boolean keyCtl[] = {false,false,false,false,false};
@@ -51,7 +51,10 @@ public class GameEngine implements KeyListener, GameReporter{
 		else if(keyCtl[3])
 			v.move_up_down(1);
 		if(keyCtl[4])
-            		v.makeBullet(gp,bullet);
+			if(bullet.size() < 10){
+            			System.out.println(bullet.size());	
+				v.makeBullet(gp,bullet);
+			}else System.out.println("reload");
 	}
 	public void start(){
 		timer.start();
@@ -83,6 +86,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		gp.updateGameUI(this);
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
+		Rectangle2D.Double bossr = boss.getRectangle();
         Rectangle2D.Double br;
 		for(Enemy e : enemies){
 			er = e.getRectangle();
@@ -96,9 +100,18 @@ public class GameEngine implements KeyListener, GameReporter{
 				if(er.intersects(br)){
 					e.die();
 					b.shooted();
-                    score += 50;
+                    			score += 50;
 					gp.sprites.remove(b);
 					gp.sprites.remove(e);
+				}
+				if(br.intersects(bossr)){
+					boss.reduceHP(20);
+					System.out.println("Boss hitted "+ boss.getHP());
+					b.shooted();
+					gp.sprites.remove(b);
+					if(boss.getHP()<=0){
+						gp.sprites.remove(boss);
+					}
 				}
 			}
 		}
@@ -127,7 +140,6 @@ public class GameEngine implements KeyListener, GameReporter{
 			break;
         	case KeyEvent.VK_S:
 			keyCtl[4]=true;
-            		v.makeBullet(gp,bullet);
             	break;
         	}
 	}
@@ -147,26 +159,20 @@ public class GameEngine implements KeyListener, GameReporter{
 			break;
         	case KeyEvent.VK_S:
 			keyCtl[4]= false;
-            		v.makeBullet(gp,bullet);
             	break;
         	}
 	}
-
-
-	
 	public long getScore(){
 		return score;
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		controlVehicle(e);
-		System.out.println("key: "+ e.getKeyCode());		
+		controlVehicle(e);		
 	}
 	@Override
 	public void keyReleased(KeyEvent e){	
-		breakControlVehicle(e);
-		System.out.println("key: "+ e.getKeyCode());		
+		breakControlVehicle(e);		
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
