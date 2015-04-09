@@ -1,5 +1,5 @@
 package f2.spw;
-
+import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,12 +23,17 @@ public class GamePanel extends JPanel {
 
 	public void updateGameUI(GameReporter reporter){
 		big.clearRect(0, 0, 650, 650);
+		big.setFont(new Font("default",Font.PLAIN,13));
 		big.setColor(Color.WHITE);
 		big.drawString(String.format("%08d", reporter.getScore()), 500, 20);
 		if(reporter.getScore() % 5000 == 0 && reporter.getScore()!=0){
 			lv += 1;
 		}
+		
 		big.drawString("lv."+ lv,300,20);
+		big.setColor(Color.RED);
+		big.setFont(new Font("default",Font.PLAIN,30));
+		big.drawString(String.format("Your HP %03d", reporter.showHP()),0,20);
 		for(Sprite s : sprites){
 			s.draw(big);
 		}

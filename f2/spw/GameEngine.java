@@ -33,13 +33,13 @@ public class GameEngine implements KeyListener, GameReporter{
 		gp.sprites.add(boss);
 		timer = new Timer(50, new ActionListener() {
 			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				process();
-				CtlShip();
-			}
-		});
-		timer.setRepeats(true);	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		process();
+		CtlShip();
+		}
+	});
+	timer.setRepeats(true);	
 	}
 	public void CtlShip(){
 		if(keyCtl[0])
@@ -87,11 +87,15 @@ public class GameEngine implements KeyListener, GameReporter{
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
 		Rectangle2D.Double bossr = boss.getRectangle();
-        Rectangle2D.Double br;
+        	Rectangle2D.Double br;
 		for(Enemy e : enemies){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
-				die();
+				v.reduceHP(1);
+				System.out.println("Warning!!!! "+v.getHp());
+				gp.sprites.remove(e);
+				if(v.getHp()<= 0)
+					die();
 				return;
 			}
         	for(Bullet b: bullet)
@@ -165,7 +169,9 @@ public class GameEngine implements KeyListener, GameReporter{
 	public long getScore(){
 		return score;
 	}
-	
+	public int showHP(){
+		return v.getHp();
+	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		controlVehicle(e);		
