@@ -10,7 +10,6 @@ import java.util.Iterator;
 
 import javax.swing.Timer;
 
-
 public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
     
@@ -20,7 +19,8 @@ public class GameEngine implements KeyListener, GameReporter{
 	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();	
 	private Boss boss = new Boss(20,70,100000,5);	
 	private Timer timer;
-	
+    private HPbar hpbar;
+
 	private boolean keyCtl[] = {false,false,false,false,false};
 	private long score = 0;
 	private double difficulty = 0.1;
@@ -28,9 +28,10 @@ public class GameEngine implements KeyListener, GameReporter{
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
 		this.v = v;		
-		
+		this.hpbar = new HPbar(10,30,v.getHp());
 		gp.sprites.add(v);
 		gp.sprites.add(boss);
+        gp.sprites.add(this.hpbar);
 		timer = new Timer(50, new ActionListener() {
 			
 	@Override
@@ -92,6 +93,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			er = e.getRectangle();
 			if(er.intersects(vr)){
 				v.reduceHP(1);
+                hpbar.procreed();
 				System.out.println("Warning!!!! "+v.getHp());
 				gp.sprites.remove(e);
 				if(v.getHp()<= 0)
