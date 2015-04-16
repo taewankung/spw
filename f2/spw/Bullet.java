@@ -12,6 +12,9 @@ public class Bullet extends Sprite{
           public Bullet(int x, int y) {
                   super(x, y, 5, 10);
           }
+          public Bullet(int x,int y,int width,int height){
+                  super(x,y,5,height);
+          }
   
           @Override
           public void draw(Graphics2D g) {

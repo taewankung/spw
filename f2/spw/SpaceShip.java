@@ -10,7 +10,8 @@ public class SpaceShip extends Sprite{
    	
 	private int Hp = 100; 
 	private int Exp = 0;
-	int step = 10;
+	private boolean die = false;
+    int step = 10;
 	//private Timer timer;
 
     	public SpaceShip(int x, int y, int width, int height) {
@@ -54,7 +55,11 @@ public class SpaceShip extends Sprite{
         Bullet b = new Bullet(this.x + this.width/2,this.y);
         gp.sprites.add(b);
         bullet.add(b);
-
+    }
+    public void makeMissile(GamePanel gp,ArrayList<Missile> missile){
+        Missile ms = new Missile(this.x + this.width/2,this.y);
+        gp.sprites.add(ms);
+        missile.add(ms);
     }
     public void shoot(GamePanel gp,ArrayList<Bullet> bullet){
         Iterator<Bullet> b_iter = bullet.iterator();
@@ -66,5 +71,22 @@ public class SpaceShip extends Sprite{
                 gp.sprites.remove(b);
             }
         }
+    }
+    public void shootM(GamePanel gp,ArrayList<Missile> missile){
+        Iterator<Missile> ms_iter = missile.iterator();
+        while(ms_iter.hasNext()){
+            Missile m = ms_iter.next();
+            m.proceed();
+            if(!m.isAlive()){
+                ms_iter.remove();
+                gp.sprites.remove(m);
+            }
+        }
+    }
+    public void die(){
+        this.die = true;
+    }
+    public boolean getDie(){
+        return this.die;
     }
 }
