@@ -3,7 +3,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.Color;
 import java.awt.Graphics2D;
-
+import java.io.*;
+import javax.imageio.*;
+import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
 public class SpaceShip extends Sprite{
@@ -11,6 +13,7 @@ public class SpaceShip extends Sprite{
 	private int Hp = 100; 
 	private int Exp = 0;
 	private boolean die = false;
+    private BufferedImage img;
     int step = 10;
 	//private Timer timer;
 
@@ -21,9 +24,14 @@ public class SpaceShip extends Sprite{
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(x, y, width, height);
-		
+        try{
+            img = ImageIO.read(new File("f2/resource/SpaceShip.png"));
+        }
+        catch(IOException e)
+        {
+            System.out.println("Can't loaded Image");
+        }
+	    g.drawImage(img,x,y,width,height,null);	
 	}
 	public int getHp(){
 		return this.Hp;
