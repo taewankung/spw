@@ -34,8 +34,8 @@ public class GameEngine implements KeyListener, GameReporter{
 		gp.sprites.add(v);
 		gp.sprites.add(boss);
         gp.sprites.add(this.hpbar);
+		this.v.setMaxExp(1000);	
 		timer = new Timer(50, new ActionListener() {
-			
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		process();
@@ -115,7 +115,17 @@ public class GameEngine implements KeyListener, GameReporter{
                 if(er.intersects(mr)){
                     e.die();
                     score += 10;
+                    v.incleaseExp();
                 }
+                if(mr.intersects(bossr)){
+					boss.reduceHP(100*v.getLevel());
+					System.out.println("Boss hitted "+ boss.getHP());
+					ms.shooted();
+					gp.sprites.remove(ms);
+					if(boss.getHP()<=0){
+						gp.sprites.remove(boss);
+					}
+				}
             }
         	for(Bullet b: bullet)
 			{
@@ -125,10 +135,10 @@ public class GameEngine implements KeyListener, GameReporter{
 					b.shooted();
                     score += 50;
 					gp.sprites.remove(b);
-					
+					v.incleaseExp();
 				}
 			    if(br.intersects(bossr)){
-					boss.reduceHP(20);
+					boss.reduceHP(20*v.getLevel());
 					System.out.println("Boss hitted "+ boss.getHP());
 					b.shooted();
 					gp.sprites.remove(b);
@@ -190,7 +200,11 @@ public class GameEngine implements KeyListener, GameReporter{
         case KeyEvent.VK_M:
             keyCtl[5]= false;
             break;
-        	}
+        case KeyEvent.VK_T:
+            timer.stop();
+            System.out.println("Test Mode!!!");            
+            break;
+        }
 	}
     public void pause(KeyEvent e){
         toggle();
@@ -218,6 +232,9 @@ public class GameEngine implements KeyListener, GameReporter{
 	public int showHP(){
 		return v.getHp();
 	}
+    public int showLevel(){
+        return v.getLevel();
+    }
 	@Override
 	public void keyPressed(KeyEvent e) {
         controlVehicle(e);

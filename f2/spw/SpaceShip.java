@@ -12,11 +12,13 @@ public class SpaceShip extends Sprite{
    	
 	private int Hp = 100; 
 	private int Exp = 0;
+    private int maxHp;
 	private boolean die = false;
+    private int maxExp =0;
     private BufferedImage img;
+    private int level=0;
     int step = 10;
 	//private Timer timer;
-
     	public SpaceShip(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		
@@ -39,9 +41,24 @@ public class SpaceShip extends Sprite{
 	public void reduceHP(int damage){
 		this.Hp-= damage;
 	}
+    public void setMaxExp(int exp){
+        this.maxExp = exp;
+    }
+    public int getMaxExp(){
+        return this.maxExp;
+    }
 	public void incleaseExp(){
-		this.Exp += 100;
+        this.Exp += 100;
+        if(this.Exp > this.maxExp)
+        {
+            this.level++;
+            this.Exp = 0;
+            this.maxExp += (2 * this.maxExp);
+        }
 	}
+    public int getLevel(){
+        return this.level;
+    }
 	public int getExp(){
 		return this.Exp;
 	}

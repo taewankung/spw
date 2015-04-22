@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 import java.io.*;
 import javax.imageio.*;
 
@@ -14,7 +15,6 @@ public class GamePanel extends JPanel {
 	
 	private BufferedImage bi;
     private BufferedImage img;
-	private int lv = 1;	
 	Graphics2D big;
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
@@ -37,11 +37,7 @@ public class GamePanel extends JPanel {
 		big.setFont(new Font("default",Font.PLAIN,13));
 		big.setColor(Color.WHITE);
 		big.drawString(String.format("%08d", reporter.getScore()), 500, 20);
-		if(reporter.getScore() % 5000 == 0 && reporter.getScore()!=0){
-			lv += 1;
-		}
-		
-		big.drawString("lv."+ lv,300,20);
+		big.drawString("lv."+ reporter.showLevel() ,300,20);
 		big.setColor(Color.RED);
 		big.setFont(new Font("default",Font.PLAIN,30));
 		big.drawString(String.format("Your HP %03d", reporter.showHP()),0,20);
