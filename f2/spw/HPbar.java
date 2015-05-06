@@ -9,10 +9,10 @@ public class HPbar extends Sprite{
     }
     @Override
     public void draw(Graphics2D g){
-        g.setColor(Color.RED);
+        g.setColor(Color.GREEN);
         g.fillRect(x,y,this.hp,20);
     }
-    public void procreed(){
-        this.hp -= 1;
+    public void procreed(int damage){
+        this.hp -= damage;
     }
 }

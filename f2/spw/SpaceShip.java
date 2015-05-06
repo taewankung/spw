@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.io.*;
 import javax.imageio.*;
 import java.awt.image.BufferedImage;
-import javax.swing.Timer;
 
 public class SpaceShip extends Sprite{
    	
@@ -14,11 +13,10 @@ public class SpaceShip extends Sprite{
 	private int Exp = 0;
     private int maxHp;
 	private boolean die = false;
-    private int maxExp =0;
+    private int maxExp =1000;
     private BufferedImage img;
-    private int level=0;
+    private int level=1;
     int step = 10;
-	//private Timer timer;
     	public SpaceShip(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		
@@ -53,7 +51,7 @@ public class SpaceShip extends Sprite{
         {
             this.level++;
             this.Exp = 0;
-            this.maxExp += (2 * this.maxExp);
+            this.maxExp += this.maxExp;
         }
 	}
     public int getLevel(){
@@ -72,7 +70,7 @@ public class SpaceShip extends Sprite{
 	public void move_up_down(int direction){
 		y += (step*direction);
 		if(y < 60)
-			y = 3 * height;
+			y = height;
 		if(y > 580 - height)
 			y = 580 - height;
 	}

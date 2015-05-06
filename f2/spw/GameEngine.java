@@ -13,19 +13,21 @@ import javax.swing.Timer;
 public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
     
-    //public int count_death = 0;    
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
+    //public int count_death = 0;  
+    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
 	private SpaceShip v;
 	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();	
 	private ArrayList<Missile> missile = new ArrayList<Missile>();
-    private Boss boss = new Boss(20,70,100000,5);	
+    private Boss boss = new Boss(20,70,100000,2,100,100);	
 	private Timer timer;
     private HPbar hpbar;
 	private boolean keyCtl[] = {false,false,false,false,false,false};
 	private long score = 0;
 	private double difficulty = 0.1;
     private boolean stop = false;
-    private int t = 0;    
+    private int t = 0;
+    private boolean win = false;
+    private boolean lose = false;
 
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
@@ -73,7 +75,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		enemies.add(e);
 	}
 	private void process(){
-		boss.proceed();
+    	boss.proceed();
 		if(Math.random() < difficulty){
 			generateEnemy();
 		}
@@ -97,17 +99,25 @@ public class GameEngine implements KeyListener, GameReporter{
 		Rectangle2D.Double bossr = boss.getRectangle();
         Rectangle2D.Double br;
         Rectangle2D.Double mr;
+        if(bossr.intersects(vr)){
+            v.reduceHP(5);
+            hpbar.procreed(5);
+        }
+        if(v.getHp()<= 0){
+                    this.lose=true;
+                    v.die();
+                    gp.updateGameUI(this);
+                    //System.out.println("lose");
+                    die();
+                }
 		for(Enemy e : enemies){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
 				v.reduceHP(1);
-                hpbar.procreed();
+                hpbar.procreed(1);
 				System.out.println("Warning!!!! "+v.getHp());
-				gp.sprites.remove(e);
-				if(v.getHp()<= 0){
-					v.die();
-                    die();
-                }
+				gp.sprites.remove(e);	
+                e.die();
 				return;
 			}
             for(Missile ms: missile){
@@ -123,7 +133,13 @@ public class GameEngine implements KeyListener, GameReporter{
 					ms.shooted();
 					gp.sprites.remove(ms);
 					if(boss.getHP()<=0){
+                        boss.die();
+                        this.score += 5000;
 						gp.sprites.remove(boss);
+                        this.win = true;
+                        System.out.println(this.win);
+                        gp.updateGameUI(this);
+                        die();
 					}
 				}
             }
@@ -144,6 +160,10 @@ public class GameEngine implements KeyListener, GameReporter{
 					gp.sprites.remove(b);
 					if(boss.getHP()<=0){
 						gp.sprites.remove(boss);
+                        this.win = true;
+                        System.out.println(this.win);
+                        gp.updateGameUI(this);
+                        die();
 					}
 				}
 			}
@@ -234,6 +254,21 @@ public class GameEngine implements KeyListener, GameReporter{
 	}
     public int showLevel(){
         return v.getLevel();
+    }
+    public boolean getWin(){
+        return this.win;
+    }
+    public boolean getLose(){
+        return this.lose;
+    }
+    public long getHPBoss(){
+        return boss.getHP();
+    }
+    public int getEXP(){
+        return v.getExp();
+    }
+    public int getMaxEXP(){
+        return v.getMaxExp();
     }
 	@Override
 	public void keyPressed(KeyEvent e) {

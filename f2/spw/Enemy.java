@@ -3,21 +3,19 @@ package f2.spw;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
-
+import java.io.*;
+import javax.imageio.*;
+import java.awt.image.BufferedImage;
 public class Enemy extends Sprite{
 	public static final int Y_TO_FADE = 400;
 	public static final int Y_TO_DIE = 600;
 	protected long HP = 10;
 	protected int step = 10;
 	protected boolean alive = true;
-	/*public int positionX(){
-        return this.x;
-    }
-    public int positionY(){
-        return this.y;
-    }*/
+	private BufferedImage img;
+
 	public Enemy(int x, int y) {
-		super(x, y,20 , 30);	
+		super(x, y,50 , 50);	
 	}
 	public void reduceHP(int damage){
 		this.HP=this.HP-damage;
@@ -34,7 +32,12 @@ public class Enemy extends Sprite{
 		(float)(Y_TO_DIE - y)/(Y_TO_DIE - Y_TO_FADE)));
 		}
 		g.setColor(Color.RED);
-		g.fillRect(x, y, width, height);
+        try{
+            img = ImageIO.read(new File("f2/resource/enermy.gif"));
+        }catch(IOException e){
+        }
+	//	g.fillRect(x, y, width, height);
+        g.drawImage(img,x,y,width,height,null);
 	}
 
 	public void proceed(){
